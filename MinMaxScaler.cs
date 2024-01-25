@@ -4,10 +4,8 @@
 //any problems.
 
 //There are certainly many applications for MinMaxScalerByte, and
-//the one that immediately springs to mind is data compression.
-//Scaling down results in smaller numbers and therefore shorter
-//bit representations. For very long text sequences, a saving can
-//certainly be achieved in this way.
+//the one that comes to mind spontaneously could possibly be data
+//compression. It would have to be adapted specifically for this.
 
 //MinMaxScalerByte is freely changeable as well as available. 
 //A small hint to my repository is enough.
@@ -21,10 +19,8 @@
 //wieder bewerkstelligen.
 
 //Für MinMaxScalerByte gibt es sicher viele Einsatzorte, und die die mir 
-//gleich einfällt ist die Datenkompression. Durch das runter Skalieren
-//entstehen kleinere Zahlen, und dadurch auch kürzere Bit-Representationen.
-//Für sehr lange Textfolgen, kann so sicher eine Einsparung erreicht
-//werden.
+//spontan einfällt könnte eventuell die Datenkompression sein. Müsste 
+//spezifisch dafür angepasst werden.
 
 //MinMaxScalerByte ist frei veränderbar wie auch verfügbar. 
 //Ein kleiner Hinweis zu meiner Repository reicht schon.
@@ -38,7 +34,9 @@ namespace exc.jdbi.Algorithms.MinMaxScalers;
 
 public class MinMaxScalerByte
 {
-  public static byte ToLimited(ReadOnlySpan<byte> input)
+  public static byte ToLimited(
+    ReadOnlySpan<byte> input, 
+    int abort_after_round = 20)
   {
     var iter = 0;
     var maxval = int.MaxValue;
@@ -52,7 +50,7 @@ public class MinMaxScalerByte
         bytes[i] = (byte)ModuloSpec(bytes[i] + min, max + 1);
       iter++;
       if (max < maxval) { maxval = max; iter = 0; }
-      if (iter > 20) return (byte)maxval;
+      if (iter > abort_after_round) return (byte)maxval;
     }
   }
 
