@@ -6,3 +6,5 @@ There are certainly many applications for MinMaxScalerByte, and the one that com
 
 MinMaxScalerByte is freely changeable as well as available. 
 A small reference to this repository is sufficient.
+
+A concrete overall example will follow.
