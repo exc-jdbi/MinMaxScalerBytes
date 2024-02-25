@@ -6,6 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
+
+    <Authors>© exc-jdbi 2024</Authors>
+    <Product>© MinMaxScalerBytes 2024</Product>
+    <Company>© exc-jdbi 2024</Company>
+    <Copyright>© MinMaxScalerBytes 2024 created by exc-jdbi 2024</Copyright>
+    <IsPublishable>False</IsPublishable>
+    <Description>A small scaling algorithm for integer sequences.</Description>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+
   </PropertyGroup>
 
 </Project>
