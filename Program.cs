@@ -28,7 +28,7 @@ public class Program
     var round = 10;
     for (var i = 0; i < round; i++)
     {
-      TestMinMaxScalerText("0.txt"); // 4.txt
+      TestMinMaxScalerText("0b.txt"); // 4.txt
       TestMinMaxScalerRandom();
     }
 
@@ -78,12 +78,9 @@ public class Program
   private static void KopieSourceFiles()
   {
     var filefolder = @"..\..\..\..\TextSource\";
-    for (var i = 0; i < 5; i++)
-    {
-      var fp = filefolder + i.ToString() + ".txt";
-      if (File.Exists(fp))
-        File.Copy(fp, i.ToString() + ".txt", true);
-    }
+    foreach (string file in Directory.GetFiles(filefolder, "*", SearchOption.AllDirectories))
+      if (File.Exists(file))
+        File.Copy(file, string.Join("", Path.GetFileName(file)), true);
   }
 
   private static string FileText(string filepath) =>
