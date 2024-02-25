@@ -28,7 +28,7 @@ public class Program
     var round = 10;
     for (var i = 0; i < round; i++)
     {
-      TestMinMaxScalerText("0b.txt"); // 4.txt
+      TestMinMaxScalerText("0.txt"); // 4.txt
       TestMinMaxScalerRandom();
     }
 
