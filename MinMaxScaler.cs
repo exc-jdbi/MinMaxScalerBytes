@@ -29,6 +29,8 @@
 //Danke und gruss exc-jdbi.
 
 
+
+
 namespace exc.jdbi.Algorithms.MinMaxScalers;
 
 
@@ -39,6 +41,7 @@ public class MinMaxScalerByte
     int abort_after_round = 20)
   {
     var iter = 0;
+    var aver = 0m;
     var maxval = int.MaxValue;
     var length = input.Length;
     var bytes = input.ToArray();
@@ -46,10 +49,13 @@ public class MinMaxScalerByte
     {
       var min = (int)bytes.Min();
       var max = (int)bytes.Max();
+      var average = bytes.Average(Convert.ToDecimal);
+      if (iter > 3 && average == aver) return (byte)maxval;
       for (var i = 0; i < length; i++)
         bytes[i] = (byte)ModuloSpec(bytes[i] + min, max + 1);
       iter++;
       if (max < maxval) { maxval = max; iter = 0; }
+      if (aver != average) { aver = average; }
       if (iter > abort_after_round) return (byte)maxval;
     }
   }
@@ -62,6 +68,7 @@ public class MinMaxScalerByte
   {
     result = default;
     var iter = 0;
+    var aver = 0m;
     var length = input.Length;
     var mm = new List<byte>();
     var minval = int.MaxValue;
@@ -71,10 +78,12 @@ public class MinMaxScalerByte
     {
       var min = (int)bytes.Min();
       var max = (int)bytes.Max();
-      if (max <= limit) break;
+      var average = bytes.Average(Convert.ToDecimal);
+      if (max <= limit && average == aver) break; 
       for (var i = 0; i < length; i++)
         bytes[i] = (byte)ModuloSpec(bytes[i] + min, max + 1);
       iter++;
+      if (aver != average) { aver=average; }
       if (max < minval) { minval = max; iter = 0; }
       if (iter > abort_after_round) return false;
       mm.AddRange([(byte)min, (byte)max]);
@@ -89,6 +98,7 @@ public class MinMaxScalerByte
     int abort_after_round = 20)
   {
     var iter = 0;
+    var aver = 0m;
     var length = input.Length;
     var mm = new List<byte>();
     var minval = int.MaxValue;
@@ -98,10 +108,13 @@ public class MinMaxScalerByte
     {
       var min = (int)bytes.Min();
       var max = (int)bytes.Max();
-      if (max <= limit) break;
+      var average = bytes.Average(Convert.ToDecimal);
+      if (max <= limit && average == aver) break;
+      //if (max <= limit) break;
       for (var i = 0; i < length; i++)
         bytes[i] = (byte)ModuloSpec(bytes[i] + min, max + 1);
       iter++;
+      if (aver != average) { aver = average; }
       if (max < minval) { minval = max; iter = 0; }
       if (iter > abort_after_round) return default;
       mm.AddRange([(byte)min, (byte)max]);
