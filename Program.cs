@@ -1,6 +1,5 @@
-﻿
-using System.Text;
-using System.Collections; 
+﻿using System.Text;
+using System.Collections;
 
 namespace exc.jdbi.Algorithms.MinMaxScalers;
 
@@ -43,15 +42,15 @@ public class Program
     var bytes = Encoding.UTF8.GetBytes(FileText(filepath));
 
     var balen1 = new BitArray(bytes).Length;
-    var sblen1 = ShortBitLength(bytes);
+    var sblen1 = ShortestBitLength(bytes);
 
     var limit = ToLimited(bytes);
     var (src, minmax) = MinMaxScaler(bytes, limit);
 
     var balen2 = new BitArray(src).Length;
-    var sblen2 = ShortBitLength(src);
+    var sblen2 = ShortestBitLength(src);
     var bsblen = sblen1 > sblen2;
-    
+
     var result = MinMaxDescaler(src, minmax);
 
     if (!bytes.SequenceEqual(result))
@@ -61,8 +60,8 @@ public class Program
 
   private static void TestMinMaxScalerRandom()
   {
-    //var size = Rand.Next(5, 15);
-    var size = Rand.Next(10, 1024);
+    var size = Rand.Next(5, 15);
+    //var size = Rand.Next(10, 1024);
 
     var bytes = RngBytes(size);
     //var bytes = RngBytes(size, 10, 190);
@@ -72,13 +71,12 @@ public class Program
     if (MinMaxScaler(bytes, limit, out var src_minmax))
       if (!bytes.SequenceEqual(MinMaxDescaler(src_minmax)))
         throw new Exception();
- 
   }
 
   private static void KopieSourceFiles()
   {
     var filefolder = @"..\..\..\..\TextSource\";
-    foreach (string file in Directory.GetFiles(filefolder, "*", SearchOption.AllDirectories))
+    foreach (var file in Directory.GetFiles(filefolder, "*", SearchOption.AllDirectories))
       if (File.Exists(file))
         File.Copy(file, string.Join("", Path.GetFileName(file)), true);
   }
@@ -86,13 +84,13 @@ public class Program
   private static string FileText(string filepath) =>
    File.ReadAllText(filepath);
 
-  private static int ShortBitLength(ReadOnlySpan<byte> input)
+  private static int ShortestBitLength(ReadOnlySpan<byte> input)
   {
+    //if x not power 2 ->> 2,4,8,16,32,64,...
+    //result = log(x0,2)+1 + log(x1,2)+1 ...  + log(xn,2)+1
     var result = 0;
     foreach (var number in input)
-      result += Convert.ToString(number, 2).Length;
+      result += Convert.ToString(number, 2).Length; 
     return result;
   }
 }
-
- 
